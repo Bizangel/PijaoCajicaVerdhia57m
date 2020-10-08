@@ -1,6 +1,6 @@
 ﻿<krpano version="1.20.6" title="Virtual Tour">
 
-	<include url="skin/vtourskin.xml" />
+	<include url="skin/vtourskin.xml" if="0"/>
 	
 	
 	<include url="vuho_overlay.xml"/>
@@ -9,7 +9,7 @@
 	<include url="%VIEWER%/toolbox/toolbox.xml" if="0" />
 	<include url="%VIEWER%/plugins/tour_edithelper.xml" if="0" />
 	
-	<events onclick="check_navigation();" if="0"/>
+	<events onclick="check_navigation();" if="1"/>
 	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
 	<skin_settings maps="false"
 	               maps_type="google"
