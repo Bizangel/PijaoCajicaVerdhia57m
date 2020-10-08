@@ -6,8 +6,8 @@
 	<include url="vuho_overlay.xml"/>
 	<include url="helper360.xml"/>
 	
-	<include url="%VIEWER%/toolbox/toolbox.xml" if="1" />
-	<include url="%VIEWER%/plugins/tour_edithelper.xml" if="1" />
+	<include url="%VIEWER%/toolbox/toolbox.xml" if="0" />
+	<include url="%VIEWER%/plugins/tour_edithelper.xml" if="0" />
 	
 	<events onclick="check_navigation();" if="0"/>
 	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
