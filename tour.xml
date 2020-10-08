@@ -77,7 +77,7 @@
 	
 	<action name="debugaction" if="1" >
 		if(keycode == 89, <!-- Y KEY -->
-			print(y);
+			smart_reload_current_scene();
 		);
 		if(keycode == 85, <!-- U KEY -->
 		);
@@ -117,18 +117,18 @@
 	<!-- startup action - load the first scene -->
 	
 	<action name="startup" autorun="onstart">
-		if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); );
+		if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[3].name); );
 		loadscene(get(startscene), null, MERGE);
 		
 		<!-- Set scene 1 start location -->
-		set(view.tx,700);
+		set(view.tx,1067);
 		set(view.ty,0);
-		set(view.tz,326);
+		set(view.tz,836);
 		
 		
 		
 		tween(view.tx|view.ty|view.tz, calc(image.ox + '|' + image.oy + '|' + image.oz), 2.0, default);	
-		
+		<!-- lookat(200,0); -->
 		
 		
 		if(startactions !== null, startactions() );
@@ -176,19 +176,19 @@
 	
 	
 	<!-- ACTUAL SCENES -->
-	<scene name="scene_1Pano_2hab_claro" title="1Pano_2hab_claro" onstart="infodisplay(1);" havevrimage.mobilevr="false" havevrimage.no-mobilevr="true" thumburl="panos/1Pano_2hab_claro.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_1Pano_3hab_claro" title="1Pano_2hab_claro" onstart="" havevrimage.mobilevr="false" havevrimage.no-mobilevr="true" thumburl="panos/1Pano_3hab_claro.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
-		<preview url="panos/1Pano_2hab_claro.tiles/preview.jpg" />
+		<preview url="panos/1Pano_3hab_claro.tiles/preview.jpg" />
 
 		<image if="!(webvr.isenabled OR device.mobilevr)" style="scene_1">
-			<cube url="panos/1Pano_2hab_claro.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640,1280" />
+			<cube url="panos/1Pano_3hab_claro.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640,1280" />
 			<depthmap url="depthmaps/depth1_3hab.png" enabled ="true" scale="0.7" offset="0"/>
 		</image>
 
 		<image stereo="true" stereolabels="1|2" if="webvr.isenabled OR device.mobilevr" style="scene_1">
-			<cube url="panos/1Pano_2hab_claro.tiles/vr/pano_%t_%s.jpg" />
+			<cube url="panos/1Pano_3hab_claro.tiles/vr/pano_%t_%s.jpg" />
 			<depthmap url="depthmaps/depth1_3hab.png" enabled ="true" scale="0.7" offset="0"/>
 		</image>
 		
@@ -239,9 +239,9 @@
 		<hotspot name="spot3" style="visual_floorspot" tx="5.5" ty="118.5" tz="286" keep="false" visible="true" enabled="true" linkedscene="scene_4"/>
 	</scene>
 
-	<scene name="scene_4pano_3hab_claro" title="4pano_3hab_claro" onstart="" havevrimage.mobilevr="false" havevrimage.no-mobilevr="true" thumburl="panos/4pano_3hab_claro.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_4pano_3hab_claro" title="4pano_3hab_claro" onstart="infodisplay(1);" havevrimage.mobilevr="false" havevrimage.no-mobilevr="true" thumburl="panos/4pano_3hab_claro.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-158.787" vlookat="5.379" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/4pano_3hab_claro.tiles/preview.jpg" />
 

@@ -127,13 +127,7 @@
 			
 			copy(to_load,scenename);
 			calc(to_load, scenename + 'pano_' + layer[stateHolder].habstate + 'hab_' + layer[stateHolder].floorstate);
-			
-			if(scene_n == 1,
-				calc(to_load, scenename + 'pano_' + '2hab_' + layer[stateHolder].floorstate);
-			);
-			
-			
-			
+				
 			<!-- print(get(to_load)); -->
 			loadscene(get(to_load),null,MERGE|KEEPMOVING,BLEND(0.5));		
 			tween(view.tx|view.ty|view.tz, calc(image.ox + '|' + image.oy + '|' + image.oz), 2.0, default);
@@ -241,6 +235,15 @@
 				);
 		);
 	);
+	</action>
+	
+	<action name="smart_reload_current_scene" scope="local">
+		copy(scenename,xml.scene);
+		indexoftxt(i,get(scenename),'pano');
+		calc(scene_n, slice(get(scenename),6,i));
+		<!-- print(get(scene_n))-->
+		
+		tour_loadscene(calc('scene_' + scene_n));
 	</action>
 	
 	<action name="tweenlookat" scope="local" args="hlookat,vlookat">
