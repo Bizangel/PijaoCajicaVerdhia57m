@@ -127,7 +127,11 @@
 			
 			copy(to_load,scenename);
 			calc(to_load, scenename + 'pano_' + layer[stateHolder].habstate + 'hab_' + layer[stateHolder].floorstate);
-				
+			
+			if( ((scene_n == 8 OR scene_n == 10) OR scene_n GT 11),
+				calc(to_load, scenename + 'pano_' + '3hab_' + layer[stateHolder].floorstate);
+			);
+			
 			<!-- print(get(to_load)); -->
 			loadscene(get(to_load),null,MERGE|KEEPMOVING,BLEND(0.5));		
 			tween(view.tx|view.ty|view.tz, calc(image.ox + '|' + image.oy + '|' + image.oz), 2.0, default);
@@ -250,4 +254,13 @@
 		lookto(get(hlookat),get(vlookat),120,smooth(250,120,100));
 	</action>
 	
+	<action name="change_piso" scope="local" args="color">
+		set(layer[stateHolder].floorstate,get(color));
+		smart_reload_current_scene();
+	</action>
+	
+	<action name="change_hab" scope="local" args="n_hab">
+		set(layer[stateHolder].habstate,get(n_hab));
+		smart_reload_current_scene();
+	</action>
 </krpano>

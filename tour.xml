@@ -77,11 +77,17 @@
 	
 	<action name="debugaction" if="1" >
 		if(keycode == 89, <!-- Y KEY -->
-			smart_reload_current_scene();
+			change_piso(claro);
 		);
 		if(keycode == 85, <!-- U KEY -->
+			change_piso(oscuro);
 		);
 		if(keycode == 72, <!-- H KEY -->
+			change_hab(3);
+		);
+		
+		if(keycode == 74, <!-- J KEY -->
+			change_hab(2);
 		);
 	</action>
 	<!--
@@ -438,5 +444,7 @@
 		<hotspot name="spot2" style="visual_floorspot" tx="+124" ty="254" tz="+34" keep="false" visible="true" enabled="true" linkedscene="scene_12"/>
 	</scene>
 
-
+	
+	<include url="cambio_piso.xml"/>
+	<include url="cambio_hab.xml"/>
 </krpano>
