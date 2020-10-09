@@ -17,11 +17,11 @@
 	       borderwidth="1.0" roundedge="0"
 	       shadow="0.0" shadowrange="4.0" shadowangle="45" shadowcolor="0x000000" shadowalpha="1.0"
 	       textshadow="1" textshadowrange="6.0" textshadowangle="90" textshadowcolor="0x000000" textshadowalpha="1.0"
-	       css="text-align:center; color:#FFFFFF; font-family:Arial; font-weight:bold; font-size:28px;"
+	       css="text-align:center; color:#FFFFFF; font-family:Arial; font-weight:bold; font-size:36px;"
 	       html="test"
 		   hovering="false"
 		   x="35%"
-		   y="125%"
+		   y="120%"
 	       />
 		   
 	<action name="do_tooltip" scope="local">
@@ -31,7 +31,7 @@
 	    set(layer[overlay_tooltip].visible, true);
 	    tween(layer[overlay_tooltip].alpha, 1.0, 0.5);
 		
-		calc(layer[overlay_tooltip].x,caller.x + 450);
+		calc(layer[overlay_tooltip].x,caller.x + 350);
 
 	</action>
 	
@@ -44,9 +44,8 @@
 		calc(copy_x,slice(get(cropval),0,i));
 		
 		<!-- if 0 thn means fully extended, if 1652 retracted -->
-		<!-- if retracted -->
 		
-		if( layer[OverlayMenu].url == '%ROOT%/icons/menuoff.png',
+		if(copy_x == 1652,
 			set(layer[OverLayMenu].maskchildren,true);
 		);
 	</action>
@@ -66,17 +65,20 @@
 			
 			set(layer[OverlayMenu].handcursor,false);
 			
-			
-			<!-- 3 buttons -->
-			set(layer[OverlayMenu].url,%ROOT%/icons/menuon.png);
-			set(layer[OverlayMenu].imagewidth,2267);
-			set(layer[overlay_close_hitbox].width,22%);
-			
+			if(layer[material_icon].visible == true,
+				set(layer[OverlayMenu].url,%ROOT%/icons/menuon.png);
+				set(layer[OverlayMenu].imagewidth,2060);
+				set(layer[overlay_close_hitbox].width,18%);
+				,
+				set(layer[OverlayMenu].url,%ROOT%/icons/small_menuon.png);
+				set(layer[OverlayMenu].imagewidth,1329);
+				set(layer[overlay_close_hitbox].width,30%);
+			);
 			
 			copy(fullwidth,layer[OverlayMenu].imagewidth);
 			
 			
-			set(layer[OverlayMenu].crop,calc( (fullwidth-512)  +'|0|512|512'));
+			set(layer[OverlayMenu].crop,calc( (fullwidth-384)  +'|0|384|384'));
 			
 			setinterval('vuho_overlay_id',0,
 				copy(cropval,layer[OverlayMenu].crop);
@@ -90,13 +92,13 @@
 				
 				calc(copy_width,fullwidth-copy_x);
 				
-				set(layer[OverlayMenu].crop,calc(copy_x + '|0|' + copy_width + '|512'));
+				set(layer[OverlayMenu].crop,calc(copy_x + '|0|' + copy_width + '|384'));
 				
 				
 				<!-- End check -->
 				if(copy_x LE 0,
 					clearinterval('vuho_overlay_id');
-					set(layer[OverlayMenu].crop,calc('0|0|' + fullwidth + '|512'));
+					set(layer[OverlayMenu].crop,calc('0|0|' + fullwidth + '|384'));
 					enable_overlay_icons();
 					tween(layer[overlay_tooltip].alpha,0);
 				);
@@ -114,7 +116,7 @@
 			
 			copy(fullwidth,layer[OverlayMenu].imagewidth);
 			
-			set(layer[OverlayMenu].crop,calc('0|0|' + fullwidth +'|512'));
+			set(layer[OverlayMenu].crop,calc('0|0|' + fullwidth +'|384'));
 			
 			setinterval('vuho_overlay_id',0,
 				copy(cropval,layer[OverlayMenu].crop);
@@ -128,13 +130,13 @@
 				
 				calc(copy_width,fullwidth-copy_x);
 				
-				set(layer[OverlayMenu].crop,calc(copy_x + '|0|' + copy_width + '|512'));
+				set(layer[OverlayMenu].crop,calc(copy_x + '|0|' + copy_width + '|384'));
 				
 				<!-- End check -->
 				if(copy_x GT 1676,
 					clearinterval('vuho_overlay_id');
 					set(layer[OverlayMenu].url,%ROOT%/icons/menuoff.png);
-					set(layer[OverlayMenu].crop,'0|0|512|512');
+					set(layer[OverlayMenu].crop,'0|0|384|384');
 					disable_overlay_icons();
 					tween(layer[overlay_tooltip].alpha,0);
 				);
@@ -156,7 +158,14 @@
 	<action name="disable_overlay_icons" scope="local">
 		tween(layer[fullscreen_icon].alpha,0,.1); set(layer[fullscreen_icon].enabled,false);
 		tween(layer[entervr_icon].alpha,0,.1); set(layer[entervr_icon].enabled,false);
+		tween(layer[material_icon].alpha,0,.1); set(layer[material_icon].enabled,false);
 		tween(layer[information_icon].alpha,0,.1); set(layer[information_icon].enabled,false);
+		
+		if(device.handheld == true,
+			extend_overlay_animation_disable_mobile();
+			,
+			extend_overlay_animation_disable();
+		);
 	</action>
 	
 	<action name="toggle_fullscreen_icon" scope="local">
@@ -196,65 +205,382 @@
 	
 	<action name="overlay_mobile_exceptions" scope="local" autorun="onstart">
 		if(device.handheld == true,
-			set(layer[infoslide1].y,0%);
-			set(layer[infoslide2].y,0%);
-			set(layer[infoslide3].y,0%);
-			
-			set(layer[OverlayMenu].scale,0.10);
-			
-			set(layer[works_ui].scale,0.10);
-			set(layer[works_ui].x,2%);
-			
+			set(layer[OverlayMenu].scale,0.15);
 			set(layer[information_icon].url,%ROOT%/icons/infoon.png);
-			set(layer[material_icon].url,%ROOT%/icons/switchmaton.png);
+			set(layer[material_icon].url,%ROOT%/icons/switch_on.png);
 			
-			set(layer[Close_Button].scale,0.8);
-			set(layer[Close_Button2].scale,0.8);
-			set(layer[Close_Button3].scale,0.8);
-			
-			set(layer[Next_Button].scale,0.8);
-			set(layer[Next_Button2].scale,0.8);
-			
-			set(layer[Prev_Button].scale,0.8);
-			set(layer[Prev_Button2].scale,0.8);
-			
-			set(layer[prev_sculpture_arrow].scale,0.1);
-			set(layer[next_sculpture_arrow].scale,0.1);
-			
-			set(layer[prev_sculpture_arrow].x,-24%);
-			set(layer[next_sculpture_arrow].x,+24%);
-			
-			set(layer[Exit_sculpture].scale,0.12);
 		);
 		
 		removelayer(webvr_enterbutton); <!-- Remove EnterVR button attop -->
 		overlay_animation_enable(); <!-- enable overlay at start -->
 	</action>
 	
-	
+	<action name="toggle_info" scope="local">
+		if(layer[infoslide1].enabled == true OR layer[infoslide2].enabled == true OR layer[infoslide3].enabled == true,
+			remove_images();
+			,
+			force_infodisplay(1);
+		);
+	</action>
 	<!-- Overlay -->
-	<layer name="OverlayMenu" keep="true" type="image" url="%ROOT%/icons/menuoff.png" handcursor="true" align="rightbottom" scale="0.2" x="50" y="50" scalechildren="true"
+	<layer name="OverlayMenu" keep="true" type="image" url="%ROOT%/icons/menuoff.png" handcursor="true" align="rightbottom" scale="0.3" x="5%" y="5%" scalechildren="true"
 	onclick=""
 	maskchildren="true">
 		<layer name="overlay_close_hitbox" type="container" onclick="toggle_overlay();" align="righttop" x="0%" y="0%" width="100%" height="100%" bgcolor="0x000000" bgalpha="0" bgcapture="true"/>
 		
-		<layer name="fullscreen_icon" type="image" url="%ROOT%/icons/fullscreen_off.png" align="righttop" x="700" y="80" alpha="0" enabled="false" onclick="switch(fullscreen);toggle_fullscreen_icon();" active="false" tooltip="Pantalla Completa"
+		<layer name="fullscreen_icon" type="image" url="%ROOT%/icons/fullscreen_off.png" align="righttop" x="450" y="70" alpha="0" enabled="false" onclick="switch(fullscreen);toggle_fullscreen_icon();" active="false" tooltip="Pantalla Completa"
 		onover="toggle_fullscreen_icon_hover_in();do_tooltip();"
 		onout="toggle_fullscreen_icon_hover_out();do_tooltip_out();"/>
 		
-		<layer name="entervr_icon" type="image" url="%ROOT%/icons/vroff.png" align="righttop" x="1200" y="80" alpha="0" enabled="false" onclick="show_webvr_warning();"
+		<layer name="entervr_icon" type="image" url="%ROOT%/icons/vroff.png" align="righttop" x="850" y="70" alpha="0" enabled="false" onclick="show_webvr_warning();"
 		onover="set(layer[entervr_icon].url,%ROOT%/icons/vron.png);do_tooltip();"
 		onout="set(layer[entervr_icon].url,%ROOT%/icons/vroff.png);do_tooltip_out();"
 		tooltip="Realidad Virtual"/>
 		
-		<layer name="information_icon" type="image" url="%ROOT%/icons/infooff.png" align="righttop" x="1700" y ="80" alpha="0" enabled="false" scale="1"
+		<layer name="information_icon" type="image" url="%ROOT%/icons/infooff.png" align="righttop" x="1275" y ="70" alpha="0" enabled="false" scale="0.75"
 		onover="set(layer[information_icon].url,%ROOT%/icons/infoon.png);do_tooltip();"
 		onout="set(layer[information_icon].url,%ROOT%/icons/infooff.png);do_tooltip_out();"
 		onclick="toggle_info();"
 		tooltip="Información"/>
 		
+		<layer name="material_icon" type="image" url="%ROOT%/icons/switch_off.png" align="righttop" x="1650" y="70" alpha="0" scale="0.7" enabled="false"
+		onover="set(layer[material_icon].url,%ROOT%/icons/switch_on.png);do_tooltip();"
+		onout="set(layer[material_icon].url,%ROOT%/icons/switch_off.png);do_tooltip_out();"
+		onclick="toggle_extended_overlay();" devices="desktop"
+		tooltip="Variaciones"/>
 		
+		<layer name="extend_menu" type="image" url="%ROOT%/icons/extendmenu.png" align="righttop" x="91%" y="0" alpha="1" crop="1652|0|0|384" maskchildren="true"
+		handcursor="false" devices="desktop">
+			
+			
+			<layer name="floor1ui" type="image" url="%VIEWER%/icons/floor1off.png" x="35%" y="25%" align="righttop" scale="0.32" 
+			onclick="switch_floor_ui(1);" enabled="true" alpha="1" devices="desktop"/>
+	
+			<layer name="floor2ui" type="image" url="%VIEWER%/icons/floor2off.png" x="15%" y="25%" align="righttop" scale="0.32" 
+			onclick="switch_floor_ui(2);"  enabled="true" alpha="1" devices="desktop"/>
+			
+			<layer name="hab2ui" type="image" url="%VIEWER%/icons/hab2off.png" x="+78%" y="25%" align="righttop" scale="0.32" 
+			onclick="switch_hab_ui(2);" enabled="true" alpha="1" devices="desktop"/>
+	
+			<layer name="hab3ui" type="image" url="%VIEWER%/icons/hab3off.png" x="+57%" y="25%" align="righttop" scale="0.32" 
+			onclick="switch_hab_ui(3);"  enabled="true" alpha="1" devices="desktop"/>
+			
+			
+			
+		</layer>
+		
+		<!-- Mobile Version -->
+		<layer name="material_icon" type="image" url="%ROOT%/icons/switch_off.png" align="righttop" x="1650" y="70" alpha="0" scale="0.7" enabled="false"
+		onover="set(layer[material_icon].url,%ROOT%/icons/switch_on.png);"
+		onout="set(layer[material_icon].url,%ROOT%/icons/switch_off.png);"
+		onclick="toggle_extended_overlay_mobile();" devices="handheld"/>
+		
+		<layer name="extend_menu" type="image" url="%ROOT%/icons/extendmenu_mobile.png" align="righttop" x="0%" y="-500" alpha="1"  maskchildren="true"
+		crop="0|657|2058|0"
+		handcursor="false" devices="handheld">
+			
+			
+			<layer name="floor1ui" type="image" url="%VIEWER%/icons/floor1off.png" x="30%" y="28%" align="righttop" scale="0.32" 
+			onclick="switch_floor_ui(1);" enabled="true" alpha="1" devices="handheld"/>
+	
+			<layer name="floor2ui" type="image" url="%VIEWER%/icons/floor2off.png" x="15%" y="28%" align="righttop" scale="0.32" 
+			onclick="switch_floor_ui(2);"  enabled="true" alpha="1" devices="handheld"/>
+			
+			<layer name="hab2ui" type="image" url="%VIEWER%/icons/hab2off.png" x="+75%" y="28%" align="righttop" scale="0.32" 
+			onclick="switch_hab_ui(2);" enabled="true" alpha="1" devices="handheld"/>
+	
+			<layer name="hab3ui" type="image" url="%VIEWER%/icons/hab3off.png" x="+55%" y="28%" align="righttop" scale="0.32" 
+			onclick="switch_hab_ui(3);"  enabled="true" alpha="1" devices="handheld"/>
+			
+			
+			
+		</layer>
 	</layer>
+	
+	<action name="hide_material_button" scope="local">
+		set(layer[material_icon].visible,false);
+		set(layer[information_icon].visible,false);
+		overlay_animation_disable();
+	</action>
+	
+	<action name="show_material_button" scope="local">
+		set(layer[material_icon].visible,true);
+		set(layer[information_icon].visible,true);
+		
+		<!-- if smally then set real one, as we're showing the buttons back on -->
+		if(layer[OverlayMenu].url == '%ROOT%/icons/small_menuon.png', 
+			overlay_animation_disable();
+		);
+	</action>
+	
+	
+	<!-- MATERIAL RELATED -->
+	
+	<action name="set_floor_ui" scope="local" args="nfloor, onoff">
+		calc(floorname_ui,'floor' + nfloor + 'ui');
+		copy(floorname,layer[get(floorname_ui)].url);
+		indexoftxt(i,get(floorname),'floor');
+		add(i,6);
+		calc(floorurlbase,slice(floorname,0,i));
+		calc(layer[get(floorname_ui)].url,floorurlbase+onoff+'.png');
+	</action>
+	
+	<action name="set_hab_ui" scope="local" args="nhab, onoff">
+		calc(floorname_ui,'hab' + nhab + 'ui');
+		copy(floorname,layer[get(floorname_ui)].url);
+		indexoftxt(i,get(floorname),'hab');
+		add(i,4);
+		calc(floorurlbase,slice(floorname,0,i));
+		calc(layer[get(floorname_ui)].url,floorurlbase+onoff+'.png');
+	</action>
+	
+	<action name="set_starting_ui" scope="local" autorun="onstart">
+		set_floor_ui(1,on);
+		set_hab_ui(2,on);
+	</action>
+	
+	<action name="switch_floor_ui" scope="local" args="nfloor">
+		if(nfloor == 1,
+			set_floor_ui(1,on); set_floor_ui(2,off);
+			change_piso(claro);
+		);
+		if(nfloor == 2,
+			set_floor_ui(2,on); set_floor_ui(1,off);
+			change_piso(oscuro);
+		);
+	</action>
+	
+	<action name="switch_hab_ui" scope="local" args="nhab">
+		if(nhab == 2,
+			set_hab_ui(2,on); set_hab_ui(3,off);
+			change_hab(2);
+		);
+		if(nhab == 3,
+			set_hab_ui(3,on); set_hab_ui(2,off);
+			change_hab(3);
+		);
+	</action>
+	
+	
+	
+	
+	<action name="extend_overlay_animation_enable" scope="local">
+		<!-- Base size is 384x384 -->
+		<!-- Extended Size is 2060, so X should start from 2060 - 384 = 1676 -->
+		<!-- CROP IS DONE ON BASE IMAGE THEN > RESIZED SO NO WORRIES FAM -->
+		copy(cropval,layer[extend_menu].crop);		
+		indexoftxt(i,get(cropval),'|');
+		calc(copy_x,slice(get(cropval),0,i));
+		
+		<!-- if 0 thn means fully extended, if 1652 retracted -->
+		if( copy_x == 1652,	
+			set(layer[OverlayMenu].maskchildren,false);
+			set(layer[material_icon].url,%ROOT%/icons/switch_on.png);
+			
+			
+			setinterval('extend_overlay_id',0,
+				copy(cropval,layer[extend_menu].crop);
+				
+				
+				indexoftxt(i,get(cropval),'|');
+				calc(copy_x,slice(get(cropval),0,i));
+				
+				<!-- Adjust Speed -->
+				dec(copy_x,200);
+				
+				calc(copy_width,1652-copy_x);
+				
+				set(layer[extend_menu].crop,calc(copy_x + '|0|' + copy_width + '|384'));
+				
+				<!-- End check -->
+				if(copy_x LE 0,
+					clearinterval('extend_overlay_id');
+					set(layer[extend_menu].crop,'0|0|1652|384');
+				);
+			);
+		);
+	</action>
+	
+	<action name="extend_overlay_disable_universal">
+		if(device.handheld == true,
+			extend_overlay_animation_disable_mobile();
+			,
+			extend_overlay_animation_disable();
+		);
+	</action>
+	
+	<action name="extend_overlay_animation_disable" scope="local">
+		<!-- Base size is 384x384 -->
+		<!-- Extended Size is 2060, so X should start from 2060 - 384 = 1676 -->
+		<!-- CROP IS DONE ON BASE IMAGE THEN > RESIZED SO NO WORRIES FAM -->
+		copy(cropval,layer[extend_menu].crop);		
+		indexoftxt(i,get(cropval),'|');
+		calc(copy_x,slice(get(cropval),0,i));
+		
+		<!-- if 0 thn means fully extended, if 1652 retracted -->
+		if( copy_x == 0,	
+			
+			delayedcall(0.15,
+				set(layer[OverlayMenu].maskchildren,true);
+			);
+			
+			set(layer[material_icon].url,%ROOT%/icons/switch_off.png);
+			
+			setinterval('extend_overlay_id',0,
+				copy(cropval,layer[extend_menu].crop);
+				
+				
+				indexoftxt(i,get(cropval),'|');
+				calc(copy_x,slice(get(cropval),0,i));
+				
+				<!-- Adjust Speed -->
+				inc(copy_x,200);
+				
+				calc(copy_width,1652-copy_x);
+				
+				set(layer[extend_menu].crop,calc(copy_x + '|0|' + copy_width + '|384'));
+				
+				<!-- End check -->
+				if(copy_x GE 1652,
+					clearinterval('extend_overlay_id');
+					set(layer[extend_menu].crop,'1652|0|0|384');
+				);
+			);
+		);
+	</action>
+	
+	<action name="toggle_extended_overlay" scope="local">
+		copy(cropval,layer[extend_menu].crop);		
+		indexoftxt(i,get(cropval),'|');
+		calc(copy_x,slice(get(cropval),0,i));
+		
+		<!-- if 0 thn means fully extended, if 1652 retracted -->
+		
+		
+		if( copy_x == 1652,	
+			extend_overlay_animation_enable();
+			,
+			extend_overlay_animation_disable();
+		);
+	</action>
+	
+	<action name="extend_overlay_animation_enable_mobile" scope="local">
+		<!-- Base size is 384x384 -->
+		<!-- Extended Size is 2060, so X should start from 2060 - 384 = 1676 -->
+		<!-- CROP IS DONE ON BASE IMAGE THEN > RESIZED SO NO WORRIES FAM -->
+		
+		
+		copy(cropval,layer[extend_menu].crop);		
+		indexoftxt(i,get(cropval),'|');
+		calc(cropval,slice(get(cropval),i+1,cropval.length));
+		
+		indexoftxt(i,get(cropval),'|');
+		calc(copy_y,slice(get(cropval),0,i));
+		
+		<!-- y needs to move between 0% and -500 -->
+		if( copy_y == 657,	
+			set(layer[material_icon].url,%ROOT%/icons/switch_on.png);
+			
+			set(layer[OverlayMenu].maskchildren,false);
+			
+			setinterval('extend_overlay_id',0,
+				copy(cropval,layer[extend_menu].crop);		
+				indexoftxt(i,get(cropval),'|');
+				calc(cropval,slice(get(cropval),i+1,cropval.length));
+				
+				indexoftxt(i,get(cropval),'|');
+				calc(copy_y,slice(get(cropval),0,i));
+				
+				
+				dec(copy_y,100);
+				
+				
+				calc(copy_height,657-copy_y);
+				set(layer[extend_menu].y,calc(copy_y-500));
+				
+				set(layer[extend_menu].crop,calc('0|' + copy_y + '|2058|' + copy_height));
+				
+				
+				if(copy_y LE 0,
+					clearinterval('extend_overlay_id');
+					set(layer[extend_menu].crop,'0|0|2058|657');
+					set(layer[extend_menu].y,-500);
+				);
+			);
+		);
+		
+	</action>
+	
+	<action name="extend_overlay_animation_disable_mobile" scope="local">
+		<!-- Base size is 384x384 -->
+		<!-- Extended Size is 2060, so X should start from 2060 - 384 = 1676 -->
+		<!-- CROP IS DONE ON BASE IMAGE THEN > RESIZED SO NO WORRIES FAM -->
+		
+		
+		copy(cropval,layer[extend_menu].crop);		
+		indexoftxt(i,get(cropval),'|');
+		calc(cropval,slice(get(cropval),i+1,cropval.length));
+		
+		indexoftxt(i,get(cropval),'|');
+		calc(copy_y,slice(get(cropval),0,i));
+		
+		if( copy_y == 0,	
+			set(layer[material_icon].url,%ROOT%/icons/switch_on.png);
+			
+			delayedcall(0.12,
+				set(layer[OverlayMenu].maskchildren,true);
+			);
+			
+			setinterval('extend_overlay_id',0,
+				copy(cropval,layer[extend_menu].crop);		
+				indexoftxt(i,get(cropval),'|');
+				calc(cropval,slice(get(cropval),i+1,cropval.length));
+				
+				indexoftxt(i,get(cropval),'|');
+				calc(copy_y,slice(get(cropval),0,i));
+				
+				
+				inc(copy_y,100);
+				
+				
+				calc(copy_height,657-copy_y);
+				set(layer[extend_menu].y,calc(copy_y-500));
+				
+				set(layer[extend_menu].crop,calc('0|' + copy_y + '|2058|' + copy_height));
+				
+				
+				if(copy_y GE 657,
+					clearinterval('extend_overlay_id');
+					set(layer[extend_menu].crop,'0|657|2058|0');
+					set(layer[extend_menu].y,0);
+				);
+			);
+		);
+		
+	</action>
+	
+	
+	<action name="toggle_extended_overlay_mobile" scope="local">
+		<!-- Base size is 384x384 -->
+		<!-- Extended Size is 2060, so X should start from 2060 - 384 = 1676 -->
+		<!-- CROP IS DONE ON BASE IMAGE THEN > RESIZED SO NO WORRIES FAM -->
+		
+		
+		copy(cropval,layer[extend_menu].crop);		
+		indexoftxt(i,get(cropval),'|');
+		calc(cropval,slice(get(cropval),i+1,cropval.length));
+		
+		indexoftxt(i,get(cropval),'|');
+		calc(copy_y,slice(get(cropval),0,i));
+		
+		
+		if( copy_y == 657,
+			extend_overlay_animation_enable_mobile();
+			,
+			extend_overlay_animation_disable_mobile();
+		);
+	</action>
+	
 	
 	<style name="custom_webvr_button" type="text" css="text-align:center; font-size:20px;" padding="4 0" mergedalpha="false" bgborder="0 0xFFFFFF 1" bgroundedge="1" bgshadow="0 1 4 0x000000 1.0" ondown="set(bgcolor, 0xDDDDDD);" onup="set(bgcolor, 0xFFFFFF);" bgcapture="true"/>
 	
@@ -386,7 +712,7 @@
 		onclick="remove_slides_images();set(layer[Close_Button].url,%VIEWER%/icons/closeoff.png);"
 		parent="infoslide1" 
 		align="righttop"
-		x="5%" y="5%" scale="0.5"/>
+		x="5%" y="5%" scale="0.05"/>
 		
 		<layer name="Next_Button" type="image" url="%VIEWER%/icons/nextoff.png"
 		onover="set(layer[Next_Button].url,%VIEWER%/icons/nexton.png)"
@@ -394,7 +720,7 @@
 		onclick="switch_infoslide(2);set(layer[Next_Button].url,%VIEWER%/icons/nextoff.png);"
 		parent="infoslide1" 
 		align="centerright"
-		x="2%" y="0" scale="0.5"/>
+		x="2%" y="0" scale="0.05"/>
 		
 	</layer>
 	
@@ -407,15 +733,7 @@
 		onclick="remove_slides_images();set(layer[Close_Button2].url,%VIEWER%/icons/closeoff.png);"
 		parent="infoslide2" 
 		align="righttop"
-		x="5%" y="5%" scale="0.5"/>
-		
-		<layer name="Next_Button2" type="image" url="%VIEWER%/icons/nextoff.png"
-		onover="set(layer[Next_Button2].url,%VIEWER%/icons/nexton.png)"
-		onout="set(layer[Next_Button2].url,%VIEWER%/icons/nextoff.png)"
-		onclick="switch_infoslide(3);set(layer[Next_Button2].url,%VIEWER%/icons/nextoff.png);"
-		parent="infoslide2" 
-		align="centerright"
-		x="2%" y="0" scale="0.5"/>
+		x="5%" y="5%" scale="0.05"/>
 		
 		<layer name="Prev_Button" type="image" url="%VIEWER%/icons/prevoff.png"
 		onover="set(layer[Prev_Button].url,%VIEWER%/icons/prevon.png)"
@@ -423,87 +741,8 @@
 		onclick="switch_infoslide(1);set(layer[Prev_Button].url,%VIEWER%/icons/prevoff.png);"
 		parent="infoslide2" 
 		align="centerleft"
-		x="2%" y="0" scale="0.5"/>
+		x="2%" y="0" scale="0.05"/>
 		
 	</layer>
-	
-	<layer name="infoslide3" type="image" url="infoslide3.png" keep="true" align="centered" scale="0.6" alpha="0" enabled="false" y="-10%"
-	maskchildren="true" scalechildren="true" handcursor="false">
-		
-		<layer name="Close_Button3" type="image" url="%VIEWER%/icons/closeoff.png"
-		onover="set(layer[Close_Button3].url,%VIEWER%/icons/closeon.png)"
-		onout="set(layer[Close_Button3].url,%VIEWER%/icons/closeoff.png)"
-		onclick="remove_slides_images();set(layer[Close_Button3].url,%VIEWER%/icons/closeoff.png);"
-		parent="infoslide3" 
-		align="righttop"
-		x="5%" y="5%" scale="0.5"/>
-		
-		<layer name="Prev_Button2" type="image" url="%VIEWER%/icons/prevoff.png"
-		onover="set(layer[Prev_Button2].url,%VIEWER%/icons/prevon.png)"
-		onout="set(layer[Prev_Button2].url,%VIEWER%/icons/prevoff.png)"
-		onclick="switch_infoslide(2);set(layer[Prev_Button2].url,%VIEWER%/icons/prevoff.png);"
-		parent="infoslide3" 
-		align="centerleft"
-		x="2%" y="0" scale="0.5"/>
-		
-	</layer>
-	
-	<!-- Golden Highlight -->
-	
-	<style name="golden_highlight" fillcolor="0x820505" bordercolor="0xe0d12b" fillalpha="0" borderalpha="0"
-		onloaded="setintervalflash();add_self_to_array();"
-		onhover="setfullalpha1();"
-		onout="borderalphatween0();"
-		onclick="floorspot_onclick();"
-		flashingout="false"
-		/>
-	<action name="add_self_to_array" scope="local">
-		add_to_golden_array(get(caller.name));
-	</action>
-	
-	<action name="create_golden_array" scope="global" autorun="onstart">
-		def(golden_array,array);
-	</action>
-	
-	<action name="add_to_golden_array" scope="local" args="var">
-		set(golden_array[calc(golden_array.length)],get(var));
-	</action>
-	
-	<action name="delete_golden_array" >
-		set(golden_array.length,0);
-	</action>
-	
-	<action name="setfullalpha1" scope="local">
-		tween(hotspot[get(caller.name)].borderalpha,1);
-	</action>
-	<action name="setintervalflash" scope="local">
-		setinterval('goldencheck',1.1,
-				for(set(i,0), i LT golden_array.length, inc(i),
-						copy(name,golden_array[get(i)]);
-						
-						if(hotspot[get(name)].flashingout == true,
-							tween(hotspot[get(name)].borderalpha,0,1);
-							,
-							tween(hotspot[get(name)].borderalpha,.6,1);
-						);
-						
-						if(hotspot[get(name)].borderalpha GE .6, 
-							set(hotspot[get(name)].flashingout,true);
-						);
-						
-						if(hotspot[get(name)].borderalpha LE 0, 
-							set(hotspot[get(name)].flashingout,false);
-						);
-				);
-		);
-	</action>
-	
-	<action name="borderalphatween1" scope="local">
-		tween(hotspot[get(caller.name)].borderalpha,1);
-	</action>
-	
-	<action name="borderalphatween0" scope="local">
-		tween(hotspot[get(caller.name)].borderalpha,0);
-	</action>
 	
 </krpano>
