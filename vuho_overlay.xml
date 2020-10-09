@@ -714,7 +714,7 @@
 	</action>
 	
 	<layer name="infoslide1" type="image" url="infoslide1.png" keep="true" align="centered" scale="0.6" alpha="0" enabled="false" y="-10%"
-	maskchildren="true" scalechildren="true" handcursor="false">
+	maskchildren="true" scalechildren="true" handcursor="false" zorder="3">
 		
 		<layer name="Close_Button" type="image" url="%VIEWER%/icons/closeoff.png"
 		onover="set(layer[Close_Button].url,%VIEWER%/icons/closeon.png)"
@@ -735,7 +735,7 @@
 	</layer>
 	
 	<layer name="infoslide2" type="image" url="infoslide2.png" keep="true" align="centered" scale="0.6" alpha="0" enabled="false" y="-10%"
-	maskchildren="true" scalechildren="true" handcursor="false">
+	maskchildren="true" scalechildren="true" handcursor="false" zorder="3">
 		
 		<layer name="Close_Button2" type="image" url="%VIEWER%/icons/closeoff.png"
 		onover="set(layer[Close_Button2].url,%VIEWER%/icons/closeon.png)"
