@@ -178,7 +178,7 @@
 		<depthmap url="depthmaps/depth9_3hab.png" enabled="true" scale="0.7" offset="0"/>
 		</image>
 
-	<hotspot name="spot1" style="visual_floorspot" tx="+62" ty="181" tz="+248" keep="false" visible="true" enabled="true" linkedscene="scene_9"/>
+	<hotspot name="spot1" style="visual_floorspot" tx="+62" ty="181" tz="+248" keep="false" visible="true" enabled="true" linkedscene="scene_8"/>
 		<hotspot name="spot2" style="visual_floorspot" tx="+226" ty="181" tz="+58" keep="false" visible="true" enabled="true" linkedscene="scene_6"/>
 	</scene>
 
