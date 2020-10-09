@@ -135,6 +135,13 @@
 			<!-- print(get(to_load)); -->
 			loadscene(get(to_load),null,MERGE|KEEPMOVING,BLEND(0.5));		
 			tween(view.tx|view.ty|view.tz, calc(image.ox + '|' + image.oy + '|' + image.oz), 2.0, default);
+			
+			<!-- Based on scene number, update mapspot -->
+			calc('spotlayername', 'spot' + scene_n);
+			
+			set(layer[radar].parent, get(spotlayername));
+			if(webvr.isenabled == false,set(layer[map].visible,"true"););
+			
 		);
 		
 		
@@ -263,4 +270,83 @@
 		set(layer[stateHolder].habstate,get(n_hab));
 		smart_reload_current_scene();
 	</action>
+	
+	
+	<action name="mapspot_onclick" scope="local">
+		tour_loadscene(get(caller.linkedscene));
+	</action>
+	<!-- MAP IMPLEMENTATION -->
+	<layer name="map" y = "16%" url="hab3map.png" keep="true" handcursor="false" capture="false" align="leftbottom" scale="0.17" scale.mobile="0.10" scalechildren="true" bgcapture="true"/>
+	<style name="mapspot" keep="true" url="bluedot.png" parent="map" align="lefttop" edge="center" scale.mobile="2"
+	onclick="mapspot_onclick();"/>
+	
+	<layer name="spot1" style="mapspot" x="232" y="1298" zorder="1" linkedscene="scene_1"/>
+	<layer name="spot2" style="mapspot" x="682" y="1521" zorder="1" linkedscene="scene_2"/>
+	<layer name="spot3" style="mapspot" x="488" y="2029" zorder="1" linkedscene="scene_3"/>
+	<layer name="spot4" style="mapspot" x="1273" y="1975" zorder="1" linkedscene="scene_4"/>
+	<layer name="spot5" style="mapspot" x="1050" y="1368" zorder="1" linkedscene="scene_5"/>
+	<layer name="spot6" style="mapspot" x="955" y="956" zorder="1" linkedscene="scene_6"/>
+	<layer name="spot7" style="mapspot" x="736" y="1063" zorder="1" linkedscene="scene_7"/>
+	<layer name="spot8" style="mapspot" x="1335" y="526" zorder="1" linkedscene="scene_8"/>
+	<layer name="spot9" style="mapspot" x="773" y="390" zorder="1" linkedscene="scene_9"/>
+	<layer name="spot10" style="mapspot" x="1335" y="2474" zorder="1" linkedscene="scene_10"/>
+	<layer name="spot11" style="mapspot" x="938" y="2305" zorder="1" linkedscene="scene_11"/>
+	<layer name="spot12" style="mapspot" x="715" y="2801" zorder="1" linkedscene="scene_12"/>
+	<layer name="spot13" style="mapspot" x="715" y="2631" zorder="1" linkedscene="scene_13"/>
+	
+	<!-- Set radar default -->
+	<action name="autoset_radar_onstart" scope="local" autorun="onstart">
+		set(layer[radar].parent, spot4);
+	</action>
+	
+	<layer name="radar" keep = "true" url.flash="%SWFPATH%/plugins/radar.swf" url.html5="%SWFPATH%/plugins/radar.js" align="center" zorder="1" scale.mobile="1.5" fillalpha="0.5" scale="1.5"
+ fillcolor="0x7F5F3F" linewidth="1.0" linecolor="0xE0E0A0" linealpha="0.5" editmode="true" />
+	
+	
+	<layer name="Map_Toggle" type="image" keep="true" url="%VIEWER%/icons/mapoff.png" scale="0.05" align="leftbottom" x="50" y="50" onclick="toggle_map();"
+	alpha="1" enabled="true"/>
+	
+	<action name="toggle_map" scope="local">
+		if(layer[map].alpha == 1,
+			disablemap();
+			if(device.handheld == true,
+				disable_dummy_remover();
+			);
+		);
+		
+		if(layer[map].alpha == 0,
+			enablemap();
+		);
+	</action>
+	
+	<action name="enablemap" scope="local">
+		tween(layer[map].alpha,1);
+		set(layer[map].enabled,true);
+		
+		set(layer[Map_Toggle].url,%VIEWER%/icons/mapon.png);
+	</action>
+	
+	<action name="disablemap" scope="local">
+		tween(layer[map].alpha,0);
+		set(layer[map].enabled,false);
+		
+		
+		set(layer[Map_Toggle].url,%VIEWER%/icons/mapoff.png);
+	</action>
+	
+	<action name="mobile_map_exceptions" scope="local" autorun="onstart">
+		if(device.handheld == true,
+			disablemap(); <!-- disable on start -->
+			,
+			enablemap(); <!-- enable on start -->
+		);
+		
+		
+	</action>
+	
+	
+	
+	
+	
+	
 </krpano>

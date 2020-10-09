@@ -209,6 +209,7 @@
 			set(layer[information_icon].url,%ROOT%/icons/infoon.png);
 			set(layer[material_icon].url,%ROOT%/icons/switch_on.png);
 			
+			set(layer[entervr_icon].url,%ROOT%/icons/vron.png);
 		);
 		
 		removelayer(webvr_enterbutton); <!-- Remove EnterVR button attop -->
@@ -259,10 +260,10 @@
 			<layer name="floor2ui" type="image" url="%VIEWER%/icons/floor2off.png" x="15%" y="25%" align="righttop" scale="0.32" 
 			onclick="switch_floor_ui(2);"  enabled="true" alpha="1" devices="desktop"/>
 			
-			<layer name="hab2ui" type="image" url="%VIEWER%/icons/hab2off.png" x="+78%" y="25%" align="righttop" scale="0.32" 
+			<layer name="hab2ui" type="image" url="%VIEWER%/icons/hab2off.png" x="+78%" y="30%" align="righttop" scale="0.28" 
 			onclick="switch_hab_ui(2);" enabled="true" alpha="1" devices="desktop"/>
 	
-			<layer name="hab3ui" type="image" url="%VIEWER%/icons/hab3off.png" x="+57%" y="25%" align="righttop" scale="0.32" 
+			<layer name="hab3ui" type="image" url="%VIEWER%/icons/hab3off.png" x="+57%" y="30%" align="righttop" scale="0.28" 
 			onclick="switch_hab_ui(3);"  enabled="true" alpha="1" devices="desktop"/>
 			
 			
@@ -336,7 +337,7 @@
 	
 	<action name="set_starting_ui" scope="local" autorun="onstart">
 		set_floor_ui(1,on);
-		set_hab_ui(2,on);
+		set_hab_ui(3,on);
 	</action>
 	
 	<action name="switch_floor_ui" scope="local" args="nfloor">
@@ -352,11 +353,17 @@
 	
 	<action name="switch_hab_ui" scope="local" args="nhab">
 		if(nhab == 2,
-			set_hab_ui(2,on); set_hab_ui(3,off);
+			set_hab_ui(2,on); set_hab_ui(3,off); 
+			
+			set(layer[map].url,%ROOT%/hab2map.png);
+			
 			change_hab(2);
 		);
 		if(nhab == 3,
 			set_hab_ui(3,on); set_hab_ui(2,off);
+			
+			set(layer[map].url,	%ROOT%/hab3map.png);
+			
 			change_hab(3);
 		);
 	</action>

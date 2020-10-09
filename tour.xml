@@ -77,10 +77,10 @@
 	
 	<action name="debugaction" if="1" >
 		if(keycode == 89, <!-- Y KEY -->
-			change_piso(claro);
+			disablemap();
 		);
 		if(keycode == 85, <!-- U KEY -->
-			change_piso(oscuro);
+			enablemap();
 		);
 		if(keycode == 72, <!-- H KEY -->
 			change_hab(3);
