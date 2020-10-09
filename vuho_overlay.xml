@@ -205,6 +205,9 @@
 	
 	<action name="overlay_mobile_exceptions" scope="local" autorun="onstart">
 		if(device.handheld == true,
+			set(layer[infoslide1].y,0%);
+			set(layer[infoslide2].y,0%);
+			
 			set(layer[OverlayMenu].scale,0.15);
 			set(layer[information_icon].url,%ROOT%/icons/infoon.png);
 			set(layer[material_icon].url,%ROOT%/icons/switch_on.png);
