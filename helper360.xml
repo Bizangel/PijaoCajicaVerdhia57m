@@ -228,6 +228,9 @@
 					set(layer[infoslide2].scale,1);
 					set(layer[infoslide3].scale,1);
 				);
+				
+				set(layer[map].scale,0.11);
+				set(layer[Map_Toggle].y,20%);
 				,
 				
 				<!-- LANDSCAPE -->
@@ -244,6 +247,9 @@
 					set(layer[infoslide2].scale,1);
 					set(layer[infoslide3].scale,1);
 				);
+				
+				set(layer[map].scale,0.07);
+				set(layer[Map_Toggle].y,5%);
 		);
 	);
 	</action>
@@ -276,8 +282,8 @@
 		tour_loadscene(get(caller.linkedscene));
 	</action>
 	<!-- MAP IMPLEMENTATION -->
-	<layer name="map" y = "16%" url="hab3map.png" keep="true" handcursor="false" capture="false" align="leftbottom" scale="0.17" scale.mobile="0.10" scalechildren="true" bgcapture="true"/>
-	<style name="mapspot" keep="true" url="bluedot.png" parent="map" align="lefttop" edge="center" scale.mobile="2"
+	<layer name="map" y = "16%" url="hab3map.png" keep="true" handcursor="false" capture="false" align="leftbottom" scale="0.17" scale.mobile="0.11" scalechildren="true" bgcapture="true"/>
+	<style name="mapspot" keep="true" url="bluedot.png" parent="map" align="lefttop" edge="center" scale.mobile="2.5"
 	onclick="mapspot_onclick();"/>
 	
 	<layer name="spot1" style="mapspot" x="232" y="1298" zorder="1" linkedscene="scene_1"/>
@@ -299,7 +305,7 @@
 		set(layer[radar].parent, spot4);
 	</action>
 	
-	<layer name="radar" keep = "true" url.flash="%SWFPATH%/plugins/radar.swf" url.html5="%SWFPATH%/plugins/radar.js" align="center" zorder="1" scale.mobile="1.5" fillalpha="0.5" scale="1.5"
+	<layer name="radar" keep = "true" url.flash="%SWFPATH%/plugins/radar.swf" url.html5="%SWFPATH%/plugins/radar.js" align="center" zorder="1" scale.mobile="2.3" fillalpha="0.5" scale="1.5"
  fillcolor="0x7F5F3F" linewidth="1.0" linecolor="0xE0E0A0" linealpha="0.5" editmode="true" />
 	
 	
@@ -309,9 +315,6 @@
 	<action name="toggle_map" scope="local">
 		if(layer[map].alpha == 1,
 			disablemap();
-			if(device.handheld == true,
-				disable_dummy_remover();
-			);
 		);
 		
 		if(layer[map].alpha == 0,
@@ -337,6 +340,12 @@
 	<action name="mobile_map_exceptions" scope="local" autorun="onstart">
 		if(device.handheld == true,
 			disablemap(); <!-- disable on start -->
+			set(layer[Map_Toggle].x,4%);
+			set(layer[Map_Toggle].y,20%);
+			
+			set(layer[map].align,center);
+			set(layer[map].y,-15%);
+			set(layer[map].x,0);
 			,
 			enablemap(); <!-- enable on start -->
 		);
